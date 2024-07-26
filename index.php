@@ -89,6 +89,7 @@ if (!($raw)) {
 
           <!-- Debut du formulaire -->
           <form action="control.php?view=test" method="POST" onsubmit="return validerFormulaire()">
+            <?php if(isset($_SESSION['form_data'])){ echo '<center><span class="text-danger">Information incorrectes</span></center>';}?>
           <div class="text-light" style="text-align:center;"><h1>Identifiez-vous</h1></div>
 
           <div style="text-align: center;">
@@ -130,4 +131,4 @@ if (!($raw)) {
 
 
 </html>
-<?php } //unset($_SESSION['form_data']); ?>
+<?php unset($_SESSION['form_data']); }  ?>

@@ -1,17 +1,20 @@
 <?php   
    if (isset($_POST['Envoyez'])) {
-        //$id = 1;
+        $id = 1;
         $idpar = 0;
         $nom = htmlspecialchars($_POST['nom']);
         $prenom = htmlspecialchars($_POST['prenom']);
         $date = htmlspecialchars($_POST['datenaiss']);
+        $mdp = htmlspecialchars($_POST['mdp']);
+        $nomfam = htmlspecialchars($_POST['nomfam']);
         $lieu = htmlspecialchars($_POST['lieu']);
         $sexe = htmlspecialchars($_POST['sexe']);
         $num = htmlspecialchars($_POST['tel']);
         $code = htmlspecialchars($_POST['code']);
         $etat = $_POST['etat'];
-
-        $req = $conn -> prepare("INSERT INTO personne(`nom`, `prenom`, `code`, `sexe`, `datenaiss`, `lieunaiss`, `numtel`, `idpar`, `etat`) VALUES ('$nom', '$prenom', '$code', '$sexe', '$date', '$lieu', '$num', '$idpar', '$etat')");
+        $_SESSION['id'] = $id;
+        $_SESSION['idpar'] = $id;
+        $req = $conn -> prepare("INSERT INTO personne(`id`,`nom`, `prenom`,`nomfam`, `mdp`, `code`, `sexe`, `datenaiss`, `lieunaiss`, `numtel`, `idpar`, `etat`) VALUES ('$id', '$nom', '$prenom', '$nomfam', '$mdp', '$code', '$sexe', '$date', '$lieu', '$num', '$idpar', '$etat')");
         $req -> execute();
         header('Location: control.php?view=home');
    }
@@ -27,16 +30,24 @@
             <div class="card-body p-0 py-3 border-0 px-3">
                 <form method="POST" action="#">
                 <div class="mb-3">
-                        <input type="text" name="nom" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer le nom.">
+                        <input type="text" name="nom" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer votre nom.">
                         <input type="hidden" name="etat" class="form-control" value="1">
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" name="prenom" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer le prenom.">
+                        <input type="text" name="prenom" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer votre prenom.">
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" name="code" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer le code.">
+                        <input type="text" placeholder="Entrez le nom de votre famille." name="nomfam" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" placeholder="Entrez le code de votre famille." name="code" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" name="mdp" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer votre mot de passe.">
                     </div>
 
                     <div class="mb-3">
@@ -44,7 +55,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" name="lieu" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer le lieu de naissance.">
+                        <input type="text" name="lieu" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer votre lieu de naissance.">
                     </div>
                    
                     <div class="mb-3">
@@ -61,7 +72,7 @@
             </div>
             <div class="card-footer py-3 border-0 px-3 p-0">
                 <div class="card-footer bg-transparent border-primary">
-                    <button type="submit" name="Envoyez" class="btn btn-outline-primary px-5 py-2">Choisir</button>
+                    <button type="submit" name="Envoyez" class="btn btn-outline-primary px-5 py-2">Enregistrer</button>
                 </div>
             </div>
             </form>

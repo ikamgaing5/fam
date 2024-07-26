@@ -3,16 +3,19 @@
     $nbrepar = $_SESSION['idpar'];
 
     //récupération du nom de la famille
-    $requete = $conn -> prepare("SELECT * FROM personne WHERE id = ? ");
-    $requete -> execute([$nbr]);
+
+    $requete = $conn -> query("SELECT * FROM personne WHERE id = '$nbr'");
     $row = $requete -> fetch();
+
 
     //récupération du nombre de membre dans la famille et des membres de la famille
 
     $req = $conn->prepare("SELECT * FROM personne WHERE idpar = ? ORDER BY datenaiss ASC");
     $req -> execute([$nbr]);
     $rows = $req -> fetchAll();
-    $nbre = $req -> rowCount();
+
+    $dead = $conn ->query("SELECT * FROM personne WHERE idpar = '$nbr' AND etat = true ");
+    $nbre = $dead -> rowCount();
 
     // inclusion de la barre de navigation
     include_once '../layout/navbar.php';
@@ -55,7 +58,7 @@
             <?php include_once '../vue/per/new.php' ?> <a class="btn btn-outline-primary" href="control.php?view=arbre&id=<?=$nbr?>">Voir l'arbre</a> 
         </h2>
 
-<?php if ($nbre > 0) { ?>
+
     <div class="table-responsive">
     <table class="table " style="padding-left:4px">
     <thead>
@@ -77,6 +80,7 @@
                     $sexe = 'Masculin';
                 }
             ?>
+        <!-- affichage des informations du parents  -->
         <td scope="row"><?=$row['nom']?></td>
         <td scope="row"><?=$row['prenom']?></td>
         <td scope="row"><?=$sexe?></td>
@@ -87,6 +91,8 @@
           
         </td>
     </tr>
+    <!-- affichage des informations des enfants -->
+    <?php if ($nbre > 0) { ?>
     <?php foreach($rows as $key){ 
         if ($key['sexe'] == 'F') {
             $sexe = 'Feminin';
@@ -124,11 +130,12 @@
 <?php 
 }
 }
-    else { echo "<tr><td colspan='3'>Aucun résultat trouvé</td></tr>"; }
+    else { echo "<tr><td colspan='7'>Aucun enfant.</td></tr>"; }
     echo "</table>";
     unset($_SESSION['failedtestlock']); 
     unset($_SESSION['modifok']);
     unset($_SESSION['errsup']);
+    
     
 ?>
 </div>

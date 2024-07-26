@@ -12,24 +12,35 @@
             </div>
             <div class="card-body p-0 py-3 border-0 px-3">
                 <?php if(isset($_SESSION['verif']) && $_SESSION['verif'] == 1 ) { ?>
-                        <span class="text-danger">Vérifiez vos choix</span>
+                        <div class="alert alert-danger " role="alert" style="font-size: 15px;"><i class="bi bi-exclamation-triangle-fill"></i> Mot de passe incorrect.</div>
                 <?php } ?>
                 <form method="POST" action="control.php?view=verif">
                     <div class="mb-3">
-                        <select name="person" class=" py-2" style="cursor:pointer; width:100%;">
+                        <?php
+                            if(isset($_SESSION['temoin'])) {
+                                $idverif = $_SESSION['data']['person'];
+                                $req = $conn -> prepare("SELECT * FROM personne WHERE id = '$idverif'");
+                                $req -> execute();
+                                $raws = $req -> fetch();
+                        ?>
+                        <select required name="person" class=" py-2" style="cursor:pointer; width:100%;">
+                            <option selected value="<?=$raws['id']?>"><?=$raws['nom'].' '.$raws['prenom']?></option>
+                        </select>
+                        <?php }else {?>  
+                        <select required name="person" class=" py-2" style="cursor:pointer; width:100%;">
                             <?php 
                                 foreach ($row as $key) {
                                     $nom = $key['nom'].' '.$key['prenom'];
                             ?>
                             <option value="<?=$key['id']?>"><?=$nom?></option>
-                            <?php } ?>
+                            <?php } }?>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <input type="number" name="num" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de membres à ajouter." <?php if(isset($_SESSION['temoin'])){ ?> value="<?=$_SESSION['data']['num']?>" <?php } ?>>
+                        <input type="number" required name="num" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de membres à ajouter." <?php if(isset($_SESSION['temoin'])){ ?> value="<?=$_SESSION['data']['num']?>" <?php } ?>>
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="code" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer votre mot de passe." <?php if(isset($_SESSION['temoin'])){ ?> value="<?=$_SESSION['data']['code']?>" <?php } ?>>
+                        <input type="password" required name="code" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Veuillez entrer votre mot de passe." <?php if(isset($_SESSION['temoin'])){ ?> value="<?=$_SESSION['data']['code']?>" <?php } ?>>
                     </div>
                     <?php if(isset($_SESSION['temoin'])) {?>
                     <div class="mb-3">

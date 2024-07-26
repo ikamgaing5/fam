@@ -1,2 +1,2 @@
 <?php   
-    $conn = new PDO("mysql:host=localhost;dbname=famm;" ,"root", "");
+    $conn = new PDO("mysql:host=localhost;dbname=git;" ,"root", "");

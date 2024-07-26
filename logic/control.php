@@ -17,6 +17,8 @@
         include_once '../vue/per/news.php';
     }elseif ($_GET['view'] == "one") {
         include '../vue/per/fam.php';
+    }elseif ($_GET['view'] == 'verif') {
+        include 'verif.php';
     }
     elseif (!isset($_SESSION['id'])) {
         header('Location:control.php?view=');
@@ -28,8 +30,6 @@
         include_once '../vue/per/addmem.php';
     }elseif ($_GET['view'] == 'admem') {
         include_once 'addmem.php';
-    }elseif ($_GET['view'] == 'verif') {
-        include 'verif.php';
     }elseif ($_GET['view'] == 'deconnect') {
         session_unset();
         header('location:control.php?view=');
