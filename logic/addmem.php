@@ -10,6 +10,7 @@
 
     if ($sexe = 'err') {
         $_SESSION['errSex'] = 1;
+        $_SESSION['infoErr'] = $_POST;
         header('location:control.php?view=addmem');
     }else {
         if (isset($_SESSION['id'])) {
