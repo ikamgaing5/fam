@@ -36,6 +36,9 @@
                     </div>
                    
                     <div class="mb-3">
+                        <?php if(isset($_SESSION['errSex'])){ echo'
+                            <div class="alert alert-danger mx-4" role="alert" style="font-size: 20px;"><i class="bi bi-exclamation-triangle-fill"></i> Choisissez un sexe.</div>';
+                        } ?>
                         <select class="form-control" name="sexe" style="cursor: pointer;" name="sexe" id="">
                             <option value="err">Choisir votre sexe</option>
                             <option value="M" style="cursor: pointer;">Masculin</option>
@@ -56,5 +59,6 @@
             </form>
         </div>
     </div>
+</center>
 
-   </center>
+<?php unset($_SESSION['errSex']);?>
